@@ -12,6 +12,9 @@ ESP32 based MQ-7 CO Sensor
 * GPIO 22 - SCL
 #### GPIO MQ-7
 * GPIO 25 - heater control
+#### Documentation
+* [MQ-7 Datasheet](documentation/MQ-7.pdf)
+* [MQ-7 Calculations](documentation/mq-7.ods)
 #### Web UI
 ![IMAGE ALT TEXT HERE](documentation/webUI.png)
 #### Schematic
