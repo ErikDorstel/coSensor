@@ -41,8 +41,8 @@ double getUheat(int cycles=10) {
   return Uheat; }
 
 void getCoPPM(int cycles=10) {
-  mq7.UheatLow=getUheat(cycles);
   mq7.Uout=getUout(cycles);
+  mq7.UheatLow=getUheat(cycles);
   mq7.Rs=Rout/mq7.Uout*(mq7.UheatHigh-mq7.Uout);
   mq7.RsRo=mq7.Rs/Ro;
   mq7.coPPM=100.0*pow(mq7.RsRo,-1.513); }
