@@ -4,7 +4,7 @@ Adafruit_ADS1115 ads1115;
 #define heatTimeHigh 60
 #define heatTimeLow 90
 #define heatGPIO 25
-#define Ro 16000.0 // Rs 100ppm
+#define Ro (3200000.0/25.75) // Ro = Rs 100ppm = (Rs clean air / 25.75)
 #define Rout 9400.0
 
 struct mq7Struct { uint64_t heatTimer; bool heatTemp; double UheatHigh; double UheatLow; double Uout; double Rs; double RsRo; double coPPM; } mq7;

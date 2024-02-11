@@ -2,6 +2,7 @@
 ESP32 based MQ-7 CO Sensor
 #### Features
 * uses MQ-7 CO Sensor
+* uses ADS1115 AD Converter
 * controllable via WebUI
 * works as WLAN client and AP (AP chooser included)
 * WebUI with IP address 192.168.4.1
@@ -15,6 +16,7 @@ ESP32 based MQ-7 CO Sensor
 #### Documentation
 * [MQ-7 Datasheet](documentation/MQ-7.pdf)
 * [MQ-7 Calculations](documentation/mq-7.ods)
+* [MQ-7 Calibration](documentation/MQ-7_Calibration.pdf)
 #### Web UI
 ![IMAGE ALT TEXT HERE](documentation/webUI.png)
 #### Schematic
