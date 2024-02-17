@@ -4,7 +4,7 @@ Adafruit_ADS1115 ads1115;
 #define heatTimeHigh 60
 #define heatTimeLow 90
 #define heatGPIO 25
-#define Ro (3200000.0/25.75) // Ro = Rs 100ppm = (Rs clean air / 25.75)
+#define Ro (1800000.0/25.75) // Ro = Rs 100ppm = (Rs clean air / 25.75)
 #define Rout 9400.0
 
 struct mq7Struct { uint64_t heatTimer; bool heatTemp; double UheatHigh; double UheatLow; double Uout; double Rs; double RsRo; double coPPM; } mq7;
@@ -28,9 +28,11 @@ void initMQ7() {
 
 double getUout(int cycles=10) {
   double Uout=0;
+  if (ads1115.computeVolts(ads1115.readADC_SingleEnded(0))<0.8) { ads1115.setGain(GAIN_FOUR); }
   for (int i=0;i<cycles;i++) {
     Uout+=ads1115.computeVolts(ads1115.readADC_SingleEnded(0))*2; }
   Uout/=cycles;
+  ads1115.setGain(GAIN_ONE);
   return Uout; }
 
 double getUheat(int cycles=10) {
