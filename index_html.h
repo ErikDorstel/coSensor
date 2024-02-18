@@ -27,7 +27,7 @@ td     { text-align:right; }
 <script>
 
 function webUIinit() {
-  heatTimer=0; heatTemp=0; UheatHigh=0; UheatLow=0; Uout=0; Rs=0; RsRo=0; coPPM=0;
+  heatTimer=0; heatTemp=0; UheatHigh=0; UheatLow=0; Usensor=0; Uout=0; Rs=0; RsRo=0; coPPM=0;
   red="#E09090"; green="#90E090"; yellow="#FFE460"; gray="#e0e0e0"; darkgray="#d0d0d0"; blue="#c2d5ed";
   appName="&nbsp;"; appDesc="&nbsp;"; ajaxObj=[]; requestAJAX('appName'); setGetCOTimer(true); }
 
@@ -40,6 +40,7 @@ function doDisplay() {
     id("heatTemp").innerHTML="low Temperature"; }
   id("UheatHigh").innerHTML="Uheat high "+UheatHigh+" Volt";
   id("UheatLow").innerHTML="Uheat low "+UheatLow+" Volt";
+  id("Usensor").innerHTML="Usensor "+Usensor+" Volt";
   id("Uout").innerHTML="Uout "+Uout+" Volt";
   id("Rs").innerHTML="Rs "+Rs+" Ohm";
   id("RsRo").innerHTML="Rs/Ro "+RsRo;
@@ -62,8 +63,9 @@ function replyAJAX(event) {
     else if (event.target.url=="getCO") {
       heatTimer=event.target.responseText.split(",")[0]*1; heatTemp=event.target.responseText.split(",")[1]*1;
       UheatHigh=event.target.responseText.split(",")[2]; UheatLow=event.target.responseText.split(",")[3];
-      Uout=event.target.responseText.split(",")[4]; Rs=event.target.responseText.split(",")[5];
-      RsRo=event.target.responseText.split(",")[6]; coPPM=event.target.responseText.split(",")[7]; doDisplay(); } } }
+      Usensor=event.target.responseText.split(",")[4]; Uout=event.target.responseText.split(",")[5];
+      Rs=event.target.responseText.split(",")[6]; RsRo=event.target.responseText.split(",")[7];
+      coPPM=event.target.responseText.split(",")[8]; doDisplay(); } } }
 
 function mapValue(value,inMin,inMax,outMin,outMax) { return (value-inMin)*(outMax-outMin)/(inMax-inMin)+outMin; }
 function id(id) { return document.getElementById(id); }
@@ -80,6 +82,7 @@ function id(id) { return document.getElementById(id); }
 <div><div class="x1a" id="heatTemp">&nbsp;</div></div>
 <div><div class="x1a" id="UheatHigh">&nbsp;</div></div>
 <div><div class="x1a" id="UheatLow">&nbsp;</div></div>
+<div><div class="x1a" id="Usensor">&nbsp;</div></div>
 <div><div class="x1a" id="Uout">&nbsp;</div></div>
 <div><div class="x1a" id="Rs">&nbsp;</div></div>
 <div><div class="x1a" id="RsRo">&nbsp;</div></div>

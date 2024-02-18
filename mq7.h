@@ -7,7 +7,7 @@ Adafruit_ADS1115 ads1115;
 #define Ro (1800000.0/25.75) // Ro = Rs 100ppm = (Rs clean air / 25.75)
 #define Rout 9400.0
 
-struct mq7Struct { uint64_t heatTimer; bool heatTemp; double UheatHigh; double UheatLow; double Uout; double Rs; double RsRo; double coPPM; } mq7;
+struct mq7Struct { uint64_t heatTimer; bool heatTemp; double UheatHigh; double UheatLow; double Usensor; double Uout; double Rs; double RsRo; double coPPM; } mq7;
 
 void doHeat(bool heatTemp) {
   mq7.heatTemp=heatTemp;
@@ -35,6 +35,13 @@ double getUout(int cycles=10) {
   ads1115.setGain(GAIN_ONE);
   return Uout; }
 
+double getUsensor(int cycles=10) {
+  double Usensor=0;
+  for (int i=0;i<cycles;i++) {
+    Usensor+=ads1115.computeVolts(ads1115.readADC_SingleEnded(2))*2; }
+  Usensor/=cycles;
+  return Usensor; }
+
 double getUheat(int cycles=10) {
   double Uheat=0;
   for (int i=0;i<cycles;i++) {
@@ -44,8 +51,8 @@ double getUheat(int cycles=10) {
 
 void getCoPPM(int cycles=10) {
   mq7.Uout=getUout(cycles);
-  mq7.UheatLow=getUheat(cycles);
-  mq7.Rs=Rout/mq7.Uout*(mq7.UheatHigh-mq7.Uout);
+  mq7.Usensor=getUsensor(cycles);
+  mq7.Rs=Rout/mq7.Uout*(mq7.Usensor-mq7.Uout);
   mq7.RsRo=mq7.Rs/Ro;
   mq7.coPPM=100.0*pow(mq7.RsRo,-1.513); }
 
@@ -56,10 +63,12 @@ void mq7Worker() {
       doHeat(false); }
     else {
       getCoPPM();
+      mq7.UheatLow=getUheat();
       doHeat(true);
       if (debug) {
         Serial.println("UheatHigh: " + String(mq7.UheatHigh,3) + " Volt");
         Serial.println("UheatLow: " + String(mq7.UheatLow,3) + " Volt");
+        Serial.println("Usensor: " + String(mq7.Usensor,3) + " Volt");
         Serial.println("Uout: " + String(mq7.Uout,3) + " Volt");
         Serial.println("Rs: " + String(mq7.Rs,3) + " Ohm");
         Serial.println("Rs/Ro: " + String(mq7.RsRo,3));
