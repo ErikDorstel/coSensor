@@ -69,7 +69,7 @@ void mq7Worker() {
         Serial.println("UheatHigh: " + String(mq7.UheatHigh,3) + " Volt");
         Serial.println("UheatLow: " + String(mq7.UheatLow,3) + " Volt");
         Serial.println("Usensor: " + String(mq7.Usensor,3) + " Volt");
-        Serial.println("Uout: " + String(mq7.Uout,3) + " Volt");
-        Serial.println("Rs: " + String(mq7.Rs,3) + " Ohm");
+        Serial.println("Uout: " + String(mq7.Uout*1000.0,3) + " milliVolt");
+        Serial.println("Rs: " + String(mq7.Rs/1000.0,3) + " kOhm");
         Serial.println("Rs/Ro: " + String(mq7.RsRo,3));
         Serial.println("CO: " + String(mq7.coPPM,3) + " ppm"); } } } }

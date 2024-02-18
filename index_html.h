@@ -41,8 +41,8 @@ function doDisplay() {
   id("UheatHigh").innerHTML="Uheat high "+UheatHigh+" Volt";
   id("UheatLow").innerHTML="Uheat low "+UheatLow+" Volt";
   id("Usensor").innerHTML="Usensor "+Usensor+" Volt";
-  id("Uout").innerHTML="Uout "+Uout+" Volt";
-  id("Rs").innerHTML="Rs "+Rs+" Ohm";
+  id("Uout").innerHTML="Uout "+Uout+" milliVolt";
+  id("Rs").innerHTML="Rs "+Rs+" kOhm";
   id("RsRo").innerHTML="Rs/Ro "+RsRo;
   id("coPPM").innerHTML="CO "+coPPM+" ppm"; }
 

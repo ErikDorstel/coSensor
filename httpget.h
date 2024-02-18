@@ -9,8 +9,8 @@ String httpget(String request) {
     response+=String(mq7.UheatHigh,3); response+=",";
     response+=String(mq7.UheatLow,3); response+=",";
     response+=String(mq7.Usensor,3); response+=",";
-    response+=String(mq7.Uout,3); response+=",";
-    response+=String(mq7.Rs,3); response+=",";
+    response+=String(mq7.Uout*1000.0,3); response+=",";
+    response+=String(mq7.Rs/1000.0,3); response+=",";
     response+=String(mq7.RsRo,3); response+=",";
     response+=String(mq7.coPPM,3); }
 
