@@ -3,16 +3,22 @@ boolean debug=true;
 const char* appName="coSensor";
 const char* appDesc="MQ-7 CO Sensor";
 
-#include "mq7.h"
+#define httpClientFlag
+#define httpClientHost "office.dorstel.de"
+#define httpClientPath "/receiver.php"
+
+#include "dataStore.h"
 #include "WLAN.h"
 #include "DNS.h"
-#include "HTTP.h"
+#include "HTTPserver.h"
+#include "HTTPclient.h"
+#include "mq7.h"
 
 void setup() {
   if (debug) { Serial.begin(115200); }
-  initMQ7();
   initWLAN();
   initDNS();
-  initHTTP(); }
+  initHTTPServer();
+  initMQ7(); }
 
-void loop() { wlanWorker(); dnsWorker(); httpWorker(); mq7Worker(); }
+void loop() { wlanWorker(); dnsWorker(); httpServerWorker(); mq7Worker(); }

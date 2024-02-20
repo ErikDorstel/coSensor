@@ -4,10 +4,8 @@ Adafruit_ADS1115 ads1115;
 #define heatTimeHigh 60
 #define heatTimeLow 90
 #define heatGPIO 25
-#define Ro (1800000.0/25.75) // Ro = Rs 100ppm = (Rs clean air / 25.75)
+#define Ro (1900000.0/25.75) // Ro = Rs 100ppm = (Rs clean air / 25.75)
 #define Rout 9400.0
-
-struct mq7Struct { uint64_t heatTimer; bool heatTemp; double UheatHigh; double UheatLow; double Usensor; double Uout; double Rs; double RsRo; double coPPM; } mq7;
 
 void doHeat(bool heatTemp) {
   mq7.heatTemp=heatTemp;
@@ -65,6 +63,9 @@ void mq7Worker() {
       getCoPPM();
       mq7.UheatLow=getUheat();
       doHeat(true);
+#ifdef httpClientFlag
+      httpClientRequest.post(httpClientHost,httpClientPath,"update=" + String(mq7.coPPM,3));
+#endif
       if (debug) {
         Serial.println("UheatHigh: " + String(mq7.UheatHigh,3) + " Volt");
         Serial.println("UheatLow: " + String(mq7.UheatLow,3) + " Volt");
