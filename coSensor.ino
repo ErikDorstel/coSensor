@@ -7,7 +7,7 @@ const char* appDesc="MQ-7 CO Sensor";
 #define httpClientHost "office.dorstel.de"
 #define httpClientPath "/receiver.php"
 
-#include "dataStore.h"
+#include "mq7Data.h"
 #include "WLAN.h"
 #include "DNS.h"
 #include "HTTPserver.h"
