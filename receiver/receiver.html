@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de"><head>
+<title>CO Sensor</title>
+<meta name="author" content="Erik Dorstel">
+<meta name="generator" content="vi">
+<meta name="repository" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<style type="text/css">
+.button { font-family:Arial,sans-serif; font-size:1em; padding:0.2em; margin:0.2em;
+          color:#ffffff; background-color:#a0a0a0; cursor:pointer; text-decoration:none; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+<script>
+function initChart() {
+  ajaxObj=new XMLHttpRequest; ajaxObj.open("GET","receiver.php",false);
+  ajaxObj.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  ajaxObj.setRequestHeader("Cache-Control","max-age=0");
+  ajaxObj.send(); arraydata=ajaxObj.responseText.trim().split("\n");
+
+  oldtime=0; labels=[]; data1=[]; data100=[];
+  for (index=0;index<arraydata.length;index++) {
+
+    nowtime=arraydata[index].split(",")[0]*1;
+    if (index>0 && (nowtime-oldtime)>300) { labels.push("Missing Data");
+      data1.push(NaN);
+      data100.push(nowtime-oldtime); }
+    oldtime=nowtime;
+
+    labels.push(new Date(arraydata[index].split(",")[0]*1000).toLocaleString());
+    data1.push(arraydata[index].split(",")[1]*1);
+    data100.push(-10); }
+
+  data=""; config="";
+  getChart();
+  myChart=new Chart(document.getElementById('myChart'),config);
+  window.onresize=resizeScreen; resizeScreen(); }
+
+function reload() {
+  myChart.destroy();
+  initChart(); }
+
+function getChart() {
+  data={labels:labels,datasets:[{
+    label:'CO ppm',
+    backgroundColor:'rgb(200,80,80)',borderColor:'rgb(200,80,80)',borderWidth:2,
+    yAxisID:'y0',xAxisID:'x',data:data1,
+    cubicInterpolationMode:'monotone',tension:0.4},{
+    label:'Missing Data',
+    backgroundColor:'rgb(150,150,150)',borderColor:'rgb(150,150,150)',borderWidth:2,
+    yAxisID:'y1',xAxisID:'x',data:data100,hidden:true,
+    cubicInterpolationMode:'monotone',tension:0.4}]};
+
+  config={type:'line',data,options:{
+    interaction:{mode:'nearest',intersect:false},
+    resizeDelay:50,radius:0,scales:{
+      x:{min:function(){if(labels.length>720){return labels.length-720;}else{return 0;}}},
+      y0:{position:"left",min:0,type:'logarithmic',grid:{drawOnChartArea:true}},
+      y1:{position:"none",min:0,grid:{drawOnChartArea:false}}},
+    plugins:{zoom:{
+      pan:{enabled:true,mode:'x'},
+      zoom:{mode:'x',
+        wheel:{enabled:true},
+        pinch:{enabled:true}}}}}}; }
+
+function resizeScreen() {
+  if (window.innerWidth<1000) { chart1.style.width="1000px"; }
+  else { chart1.style.width="100%"; } }
+
+</script></head>
+<body id="display" onload="initChart();">
+<div id="chart1">
+  <canvas id="myChart"></canvas>
+  <a class="button" onclick="reload();">Reload</a>
+</div>
+</body></html>
