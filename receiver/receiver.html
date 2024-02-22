@@ -57,7 +57,7 @@ function getChart() {
     interaction:{mode:'nearest',intersect:false},
     resizeDelay:50,radius:0,scales:{
       x:{min:function(){if(labels.length>720){return labels.length-720;}else{return 0;}}},
-      y0:{position:"left",min:0,type:'logarithmic',grid:{drawOnChartArea:true}},
+      y0:{position:"left",type:'logarithmic',grid:{drawOnChartArea:true}},
       y1:{position:"none",min:0,grid:{drawOnChartArea:false}}},
     plugins:{zoom:{
       pan:{enabled:true,mode:'x'},
